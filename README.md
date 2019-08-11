@@ -23,7 +23,7 @@ bash ./check-sources-for-update.sh /path/to/plantuml-stdlib/
 ```
 This will then output whether each project has an update available or not.
 
-![check-sources-for-update-screenshot](https://gist.githubusercontent.com/Potherca/d52275853c3fb46e8244616676790b80/raw/check-sources-for-update-screenshot.png)
+![screenshot-check-sources-for-update](https://gist.githubusercontent.com/Potherca/d52275853c3fb46e8244616676790b80/raw/screenshot-check-sources-for-update.png)
 
 ## `update_sources.sh`
 
@@ -34,11 +34,13 @@ The `sources.config` file is also needed.
 Next point the script to the `plantuml-stdlib` code base:
 
 ```bash
-bash ./update_sources.sh . /path/to/repos/ /path/to/sources.config
+bash ./update_sources.sh /path/to/plantuml-stdlib/ /path/to/repos/ /path/to/sources.config
 ```
 
 This will then checkout or update all the other project git repositories and copy all the relevant files from those projects into the `plantuml-stdlib` code base.
 It does this based on information from the config file.
+
+![screenshot-update_sources](https://gist.githubusercontent.com/Potherca/d52275853c3fb46e8244616676790b80/raw/screenshot-update_sources.png)
 
 The changes in `plantuml-stdlib` can then be seen using `git status`, added using `git add`. comitted with `git commit`, etc.
 
