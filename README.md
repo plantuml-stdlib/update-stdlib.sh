@@ -23,6 +23,8 @@ bash ./check-sources-for-update.sh /path/to/plantuml-stdlib/
 ```
 This will then output whether each project has an update available or not.
 
+![check-sources-for-update-screenshot](https://gist.githubusercontent.com/Potherca/d52275853c3fb46e8244616676790b80/raw/check-sources-for-update-screenshot.png)
+
 ## `update_sources.sh`
 
 To use this script, make sure there is an up-to-date version of the `plantuml-stdlib` git repository locally.
