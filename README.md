@@ -1,10 +1,10 @@
 The [PlantUML Standard Library](http://plantuml.com/stdlib) makes it possible to use popular icons in PlantUML with zero effort.
 
-The [plantuml-stdlib](https://github.com/plantuml/plantuml-stdlib) code as based on other projects.
+The [plantuml-stdlib](https://github.com/plantuml/plantuml-stdlib) code is based on other projects.
 
-As there were changes in some of those repos that were not (yet) in plantuml-stdlib, I decided to open some merge-requests to update things.
+As there were changes in some of those repos that were not (yet) in plantuml-stdlib, I decided to open some merge-requests to update things. []()
 
-Because I don't like to do thnings manually that could be automated, I spend some time creating two BASH scripts:
+Because I don't like to do things manually that could be automated, I spend some time creating two BASH scripts:
 
 - [`check-sources-for-update.sh`](./check-sources-for-update.sh)
 - [`update_sources.sh`](./update_sources.sh)
@@ -44,3 +44,6 @@ It does this based on information from the config file.
 
 The changes in `plantuml-stdlib` can then be seen using `git status`, added using `git add`. comitted with `git commit`, etc.
 
+## Adding a new library
+
+As it might not be clear, I also created [a "simple" tutorial explaining how to add an icon library](./how-to-add-an-icon-library.md).
