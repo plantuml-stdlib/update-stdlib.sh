@@ -16,7 +16,7 @@ update_sources() {
     }
 
     update_source() {
-        local iLength sConfig sPath sProject sSourceFile sSourcePath sTargetFile sTargetPath
+        local iLength sConfig sFilePath sPath sProject sSource sSourceFile sSourcePath sTargetFile sTargetPath
 
         readonly sProject="${1?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
         readonly sTargetPath="${2?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
@@ -24,7 +24,7 @@ update_sources() {
         readonly sPath="${4?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
         readonly sConfig="${5?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
 
-echo -e "\n =====> Updating ${sProject} (${sPath})"
+        echo -e "\n =====> Updating ${sProject} (${sPath})"
 
         if [[ ! -d "${sSourcePath}/${sPath}" ]];then
             echo ' -----> Creating git clone'
@@ -34,13 +34,12 @@ echo -e "\n =====> Updating ${sProject} (${sPath})"
             git --git-dir="${sSourcePath}/${sPath}/.git" --work-tree="${sSourcePath}/${sPath}" pull
         fi
 
-
         echo ' -----> Looking up config'
 
         sSource="$(echo "${sConfig}" | grep "\b${sPath}\b" | tr -d ' ')" || true
 
         if [[ "${sSource}" == '' ]];then
-            echo -e "\tNo config vailable. Skipping"
+            echo -e "\tNo config available. Skipping"
         else
             readonly iLength=$(( "${#sSourcePath} + ${#sSource}" + 1))
             echo ' -----> Copying "*.puml" files'
@@ -50,11 +49,11 @@ echo -e "\n =====> Updating ${sProject} (${sPath})"
                 sSourceFile="${sSourcePath}/${sSource}${sFilePath:${iLength}}"
                 sTargetFile="${sTargetPath}/${sPath}/${sFilePath:${iLength}}"
 
-                sTargetFolder="$(dirname "${sTargetFile}")"
+                  sTargetFolder="$(dirname "${sTargetFile}")"
 
-                if [[ ! -d "${sTargetFolder}" ]];then
-                    mkdir -p "${sTargetFolder}"
-                fi
+                  if [[ ! -d "${sTargetFolder}" ]];then
+                      mkdir -p "${sTargetFolder}"
+                  fi
 
                 cp "${sSourceFile}" "${sTargetFile}"
             done
