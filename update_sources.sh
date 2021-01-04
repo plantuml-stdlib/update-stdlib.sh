@@ -9,7 +9,7 @@ update_sources() {
 
         readonly sContent="${1?One parameter required: <content>}"
 
-        readonly sUrl=$(echo "${sContent}" | grep -oE 'https?://.*')
+        readonly sUrl=$(echo "${sContent}" | grep -E '^SOURCE=' | grep -oE 'https?://.*')
         readonly sProject="$(echo "${sUrl}" | rev | grep -oE '[^/]+/[^/]+' | rev)"
 
         echo "${sProject}"

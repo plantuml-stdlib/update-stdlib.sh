@@ -34,7 +34,7 @@ check_sources_for_update() {
 
         readonly sContent="${1?One parameter required: <content>}"
 
-        sLocalVersion=$(echo "${sContent}" | grep -oE '([0-9]+\.?){3}')
+        sLocalVersion=$(echo "${sContent}" | grep -E '^VERSION=' | grep -oE '([0-9]+\.?){3}')
 
         if echo "${sLocalVersion}" | grep --quiet '\.0[0-9]';then
             # Remove unneeded leading zero
@@ -89,7 +89,7 @@ check_sources_for_update() {
 
         readonly sContent="${1?One parameter required: <content>}"
 
-        readonly sUrl=$(echo "${sContent}" | grep -oE 'https?://.*')
+        readonly sUrl=$(echo "${sContent}" | grep -E '^SOURCE=' | grep -oE 'https?://.*')
         readonly sProject="$(echo "${sUrl}" | rev | grep -oE '[^/]+/[^/]+' | rev)"
 
         echo "${sProject}"
