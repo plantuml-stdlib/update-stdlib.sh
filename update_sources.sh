@@ -44,10 +44,11 @@ update_sources() {
             readonly iLength=$(( "${#sSourcePath} + ${#sSource}" + 1))
             echo ' -----> Copying "*.puml" files'
 
-            find "${sSourcePath}/${sSource}" -name '*.puml' -print0 |
-            while read -r -d $'\0' sFilePath; do
-                sSourceFile="${sSourcePath}/${sSource}${sFilePath:${iLength}}"
-                sTargetFile="${sTargetPath}/${sPath}/${sFilePath:${iLength}}"
+            if [ "$(find "${sSourcePath}/${sSource}" -name '*.puml')" ];then
+              find "${sSourcePath}/${sSource}" -name '*.puml' -print0 |
+              while read -r -d $'\0' sFilePath; do
+                  sSourceFile="${sSourcePath}/${sSource}${sFilePath:${iLength}}"
+                  sTargetFile="${sTargetPath}/${sPath}/${sFilePath:${iLength}}"
 
                   sTargetFolder="$(dirname "${sTargetFile}")"
 
@@ -55,8 +56,12 @@ update_sources() {
                       mkdir -p "${sTargetFolder}"
                   fi
 
-                cp "${sSourceFile}" "${sTargetFile}"
-            done
+                  cp "${sSourceFile}" "${sTargetFile}"
+              done
+            else
+              echo -e "\tNo '*.puml' files found. Skipping"
+              # @TODO: Check if there is an SVG (or PNG?) source dir and generate '*.puml' files from there
+            fi
         fi
     }
 
