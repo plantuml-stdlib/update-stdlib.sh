@@ -106,7 +106,7 @@ TXT
         done;
 
         # Cleanup
-        rm -rf "${sTargetPath}/C4/samples/" "${sTargetPath}/tupadr3/examples/"
+        rm -rf "${sTargetPath}/C4/samples/" "${sTargetPath}/C4/percy/" "${sTargetPath}/tupadr3/examples/"
     }
 
     run "${@}"
