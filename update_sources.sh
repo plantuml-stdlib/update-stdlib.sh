@@ -2,21 +2,21 @@
 
 set -o errexit -o errtrace -o nounset -o pipefail
 
+: "${GIT:=git}"
+
 update_sources() {
 
-    get_project_name_from_github_url() {
-        local sContent sProject sUrl
+    local -r sScriptPath="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-        readonly sContent="${1?One parameter required: <content>}"
-
-        readonly sUrl=$(echo "${sContent}" | grep -E '^SOURCE=' | grep -oE 'https?://.*')
-        readonly sProject="$(echo "${sUrl}" | rev | grep -oE '[^/]+/[^/]+' | rev)"
-
-        echo "${sProject}"
-    }
+    # shellcheck source=./src/function.get_local_version.sh
+    source "${sScriptPath}/src/function.get_local_version.sh"
+    # shellcheck source=./src/function.get_project_name_from_github_url.sh
+    source "${sScriptPath}/src/function.get_project_name_from_github_url.sh"
+    # shellcheck source=./src/function.get_version_from_remote_git.sh
+    source "${sScriptPath}/src/function.get_version_from_remote_git.sh"
 
     update_source() {
-        local iLength sConfig sFilePath sPath sProject sSource sSourceFile sSourcePath sTargetFile sTargetPath
+        local iLength sConfig sFilePath sPath sProject sRemoteVersion sSource sSourceFile sSourcePath sTargetFile sTargetFolder sTargetPath
 
         readonly sProject="${1?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
         readonly sTargetPath="${2?Five parameters required: <project> <target-path> <source-path> <path> <config>}"
@@ -62,6 +62,22 @@ update_sources() {
               echo -e "\tNo '*.puml' files found. Skipping"
               # @TODO: Check if there is an SVG (or PNG?) source dir and generate '*.puml' files from there
             fi
+
+            echo " -----> Writing INFO file"
+            sRemoteVersion="$(get_version_from_remote_git "${sProject}")"
+
+            if [[ "${sRemoteVersion}" == '' ]];then
+              sRemoteVersion="0.0.1"
+            fi
+
+            if echo "${sRemoteVersion}" | grep -E '^[0-9]+\.[0-9]+$';then
+              sRemoteVersion="${sRemoteVersion}.0"
+            fi
+
+            cat > "${sTargetPath}/${sPath}/INFO" <<TXT
+VERSION=${sRemoteVersion}
+SOURCE=https://github.com/${sProject}
+TXT
         fi
     }
 
